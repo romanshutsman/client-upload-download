@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { Subscription } from 'rxjs/Subscription';
 import {saveAs} from 'file-saver';
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,6 +10,7 @@ import {saveAs} from 'file-saver';
 })
 export class AppComponent  {
   files: any;
+  fileLength = 0;
   file: any;
   message = {};
   constructor (private api: ApiService) {
@@ -19,7 +21,11 @@ export class AppComponent  {
     this.api.getFiles().subscribe(
       data => {
         this.files = data;
+        if (data) {
+          this.fileLength = this.files.length;
+        }
         console.log(data);
+        this.message = {};
     });
   }
   fileChange(event) {
@@ -29,7 +35,7 @@ export class AppComponent  {
         this.file = file;
     }
 }
-  uploadFiles(file) {
+  uploadFiles(form: NgForm) {
     const dataFile = new FormData();
     dataFile.append('file', this.file);
     dataFile.append('filename', this.file.name);
@@ -37,7 +43,10 @@ export class AppComponent  {
       data => {
         this.message = data;
         console.log(data);
-    });
+      }, error => {
+        console.log(error);
+      });
+    form.reset();
   }
   download(file) {
     console.log(file);

@@ -5,20 +5,25 @@
         <input  type="file" name="file" (change)="fileChange($event)" ngModel required #file="ngModel">
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"> Upload</button>
       </form>
-  </div>
-  <div class="row">
+    </div>
+    <div class="row">
       <h3 *ngIf="message != {}">{{message.message}}</h3>
-  </div>
-  <div class="row">
+    </div>
+    <div class="row">
+      <button (click)="getFiles()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">update data</button>
+    </div>
+  <div class="row" >
     <ol>
       <li *ngFor="let file of files">
         <h2>
-          <b>Name: </b>
-          <a href="" download> DOWNLOAD</a>
+          <b>File: </b>
           {{file.name}}
         </h2>
         <button (click)="download(file)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"> Download</button>
         </li>
     </ol>
+  </div>
+  <div class="row" *ngIf="fileLength == 0 ">
+    <h3>No files!</h3>
   </div>
 </div>
