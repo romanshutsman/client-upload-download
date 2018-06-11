@@ -12,7 +12,7 @@ export class AppComponent  {
   files: any;
   fileLength = 0;
   file: any;
-  message = {};
+  message = '';
   constructor (private api: ApiService) {
     this.getFiles();
   }
@@ -25,7 +25,7 @@ export class AppComponent  {
           this.fileLength = this.files.length;
         }
         console.log(data);
-        this.message = {};
+        this.message = '';
     });
   }
   fileChange(event) {
@@ -39,9 +39,13 @@ export class AppComponent  {
     const dataFile = new FormData();
     dataFile.append('file', this.file);
     dataFile.append('filename', this.file.name);
+    console.log(dataFile);
     this.api.uploadFiles(dataFile).subscribe(
       data => {
-        this.message = data;
+        if (data['uploaded']) {
+          console.log('HELLOOOO');
+          this.message = 'File uploaded successfully!';
+        }
         console.log(data);
       }, error => {
         console.log(error);
